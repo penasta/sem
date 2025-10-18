@@ -1,0 +1,34 @@
+---
+title: "Nome do trabalho"
+subtitle: "Matéria | Prof. Dr. joao"
+author:
+  - name: Bruno Gondim Toledo
+    affiliation: 
+      - name: Universidade de Brasília (UnB) 
+    url: https://penasta.github.io
+date: last-modified
+output: html_document
+geometry: a4paper
+fontsize: 12pt
+format:
+  html:
+    code-fold: true
+    code-summary: "Mostrar códigos"
+    toc: true
+    toc-title: "Índice"
+---
+
+O fragmento abaixo cria uma tabela escondida via html.
+
+```{=html}
+<details>
+<summary>Ver tabela</summary>
+```
+
+```{r}
+DT::datatable(cars)
+```
+
+```{=html}
+</details>
+```
