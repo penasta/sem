@@ -1,0 +1,118 @@
+5 dez
+até 2h/dia
+até 5d/semana
+
+7 semanas
+70h
+
+=====
+Aula 1) revisão de análise multivariada
+
+- Revisão dos conceitos de vetor aleatório e matriz de covariâncias
+
+- Maldição da dimensionalidade e correlações espúrias
+
+- Análise de componentes principais (PCA) vs análise fatorial (FA)
+
+- Identificação de dimensões latentes
+
+- Normalidade multivariada, linearidade e homocedasticidade
+
+- Introdução a estimação por máxima verossimilhança em contexto multivariado
+
+- Exercício prático: visualizando estrutura de covariância com psych ou GGally
+
+
+Aula 2) Análise fatorial exploratória
+
+- Ideia de fatores latentes: variância comum vs específica
+
+- Extração de fatores: métodos (ML, PA, PCA, etc.)
+
+- Rotação: ortogonal (varimax) vs oblíqua (oblimin, promax)
+
+- Critérios para número de fatores (Kaiser, scree plot, parallel analysis)
+
+- Interpretação de cargas fatoriais e comunalidades
+
+- Problemas comuns: multicolinearidade, singularidade
+
+- Aplicação prática com psych::fa e interpretação visual
+
+- Limitações da EFA → motivação para CFA
+
+Aula 3) Análise fatorial confirmatória
+
+- Do exploratório ao confirmatório: especificação teórica
+
+- Representação gráfica (diagramas de caminho)
+
+- Identificação de modelo (fixação de carga, escala latente)
+
+- Estimação via ML e robustez a desvios de normalidade
+
+- Avaliação de ajuste: χ², RMSEA, CFI, TLI, SRMR
+
+- Modificação e parcimônia: modification indices e teoria
+
+- Prática com lavaan::cfa e interpretação dos outputs
+
+- Discussão: o que é um bom modelo de medida?
+
+Aula 4) Modelos de equações estruturais - teoria
+
+- O que é um SEM: união de CFA + regressões estruturais
+
+- Componentes: modelo de medida e modelo estrutural
+
+- Causalidade, direção de caminhos e identificação
+
+- Modelos reflexivos vs formativos (com exemplos)
+
+- Modelos MIMIC, mediação e moderação
+
+Índices de ajuste globais e locais
+
+Regras de identificação (df > 0, parâmetros livres)
+
+Pressupostos e implicações amostrais (normalidade, MAR, sample size)
+
+Exemplo teórico de modelo hierárquico ou mediacional
+
+Aula 5) O pacote lavaan - implementando um SEM
+
+Sintaxe lavaan: =~, ~, ~~
+
+Estimação e ajustes (ML, MLM, MLR, WLSMV)
+
+Tratamento de missing (missing = "fiml")
+
+Padronização de parâmetros (std.lv, std.all)
+
+Diagnóstico de ajuste e refinamento de modelo
+
+Modelos mais avançados: mediação, moderação, hierárquicos
+
+Exportação e visualização com semPlot
+
+Relato e comunicação dos resultados (fit indices + interpretação causal)
+
+Aula 6) O pacote blavaan - implementando um SEM
+
+Motivação: quando o Bayesian SEM é preferível
+
+Revisão rápida de inferência bayesiana (prior, posterior, MCMC)
+
+Sintaxe blavaan: similar ao lavaan
+
+Especificação de priors e inspeção de convergência (Rhat, traceplots)
+
+Interpretação de intervalos de credibilidade e posterior predictive checks
+
+Comparação com lavaan (frequentista vs bayesiano)
+
+Aplicações: amostras pequenas, missing MAR, modelos complexos
+
+Discussão de priors informativos vs não informativos
+
+Ajuste de SEM hierárquico bayesiano
