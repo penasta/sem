@@ -1,0 +1,250 @@
+---
+title: "Modelos de equações estruturais"
+subtitle: "Aula 2 — Análise Fatorial Exploratória"
+author:
+  - name: Bruno Gondim Toledo
+    affiliation: 
+      - name: Estatístico — CONRE 1ª Região Nº 11477
+    url: https://github.com/penasta
+format:
+  revealjs: 
+    width: 1600
+    height: 900
+    slide-number: true
+    chalkboard: 
+      buttons: true
+    preview-links: auto
+    scrollable: true
+    theme: serif
+    css: styles.css
+resources:
+  - demo.pdf
+editor_options: 
+  chunk_output_type: console
+knitr:
+  opts_chunk:
+    dev: png
+    dev.args:
+      bg: transparent
+---
+
+## Motivação e contexto
+
+Retomando a ideia de maldição da dimensionalidade...
+
+::: incremental
+
+- Quando existem um número expressivo de variáveis correlacionadas, é possível que elas estejam medindo a mesma coisa.
+
+- Para resolver esta questão, lançaremos mão do conceito de **variáveis latentes**
+
+- Num contexto em que se busca medir Gestão de documentos e Gestão de conhecimento, podem existir fatores observáveis que meçam conjuntamente e indiretamente estas características de interesse.
+
+:::
+
+::: fragment
+
+Na regressão, modelamos $Y$ em função de $\boldsymbol{X}$ ($Y \sim \boldsymbol{X}$)
+
+Em análise fatorial (AF), iremos modelar $\boldsymbol{X} \sim F$, onde $F$ é latente.
+
+:::
+
+## O modelo clássico
+
+$$\boldsymbol{x-\mu = \Phi f + \epsilon}$$
+tal que:
+
+::: incremental
+
+- $x$ é vetor de variáveis observadas;
+
+- $\Phi$ é a matriz de cargas fatoriais (pesos);
+
+- $f$ é vetor de fatores latentes;
+
+- $\epsilon$ é vetor de erros específicos.
+
+:::
+
+
+## Intuição e pressupostos:
+
+::: {style="font-size: 80%;"}
+
+As cargas fatoriais seriam pesos, ou seja, a importância que cada construto tem na determinação do valor de cada variáveis, enquanto os erros específicos seriam a parte da variável que não é explicada pelos fatores comuns, podendo ser interpretada como erro de medida.
+
+:::
+
+::: fragment
+
+Pressupostos (clássicos) do modelo
+
+:::
+
+::: fragment
+
+::: {style="font-size: 80%;"}
+
+Seguindo o paradigma da [identificabilidade](https://en.wikipedia.org/wiki/Identifiability),
+
+:::
+
+:::
+
+::: incremental
+
+- $E(\boldsymbol{f}) = 0$ e $E(\boldsymbol{\epsilon}) = 0$;
+
+- $Cov(\boldsymbol{f}) = \Phi = I_m$ (fatores comuns não correlacionados);
+
+- $Cov(\epsilon) = \Psi = diag\{\psi_1,...,\psi_p\}$
+
+- $Cov(\boldsymbol{f}, \boldsymbol{\epsilon}) = 0$.
+
+:::
+
+::: fragment
+
+Desta forma,
+
+$$\Sigma = \Phi \Phi^T + \Psi$$
+
+:::
+
+::: fragment
+
+::: {style="font-size: 50%;"}
+
+Mais detalhes e demonstrações [aqui](https://github.com/penasta/multivariada/blob/main/rdocs/lista6.pdf)
+
+:::
+
+:::
+
+## Interpretações e glossário pertinente
+
+::: {style="font-size: 80%;"}
+
+Podemos então decompor a variância de cada $\boldsymbol{X}_i$, tal que:
+
+:::
+
+$$Var(X_i) = \phi_{i1}^2+...+\phi_{im}^2 + \psi_i,$$
+
+::: {style="font-size: 80%;"}
+
+onde as parcelas $\phi_{ij}$ advém das cargas fatoriais, e $\psi_i$ do erro específico.
+
+Desta forma, podemos já adotar o glossário usual da literatura:
+
+:::
+
+::: fragment
+
+**Carga fatorial**: 
+
+::: {style="font-size: 80%;"}
+
+é a correlação entre a variável observada e a variável latente.
+
+:::
+
+:::
+
+:::fragment
+
+**Comunalidade**: 
+
+:::
+
+::: incremental
+
+::: {style="font-size: 80%;"}
+
+- Variância explicada pelos fatores, definida por $h_i^2=\sum_{j=1}^m\phi^2_{ij}$
+
+:::
+
+:::
+
+::: fragment
+
+**Epecificidade**
+
+:::
+
+::: incremental
+
+::: {style="font-size: 80%;"}
+
+- Parte da variância de $x_i$ que não é explicada pelos fatores comuns $\Phi$, dado simplesmente por: $\psi_i = 1 - h_i^2$ (variável padronizada, com variância 1).
+
+:::
+
+:::
+
+## Estimação e número de fatores
+
+Esta seção será breve, pois não é nosso objetivo específico neste projeto. 
+
+::: incremental
+
+- Como o cliente já tem um modelo SEM "pronto" (ou seja, o número de fatores já está definido), não entraremos em detalhes. Caso precisem, consultem os materiais: [1](https://github.com/penasta/multivariada/blob/main/rdocs/lista6.pdf) e [2](https://github.com/penasta/multivariada/blob/main/rdocs/entrega5.pdf), ou livros: ARTES, R.; BARROSO, L. P. **Métodos multivariados de análise estatística**. [S.l.]: São Paulo: Blucher, 2023; JOHNSON, R. A.; WICHERN, D. W. **Applied Multivariate Statistical Analysis**. [S.l.]: 6. ed.[S.l.]:Prentice Hall, 2007.
+
+- Note que esta parte é fundamental em projetos que necessitem de análise fatorial exploratória, portanto não podem ser ignorada em outro projeto com esta outra natureza.
+
+- Métodos de estimação também são explicados nos materiais, mas por hora vamos nos contentar com as implementações disponíveis em `R`, nos pacotes `psych`, `factoextra` e `lavaan`.
+
+:::
+
+## Rotações (lembram do queijo?)
+
+::: incremental
+
+::: {style="font-size: 90%;"}
+
+- As rotações visam facilitar a interpretação dos fatores extraídos, buscando uma estrutura mais simples e clara.
+
+- Em estatística, costumamos utilizar a rotação *varimax*, que assume grande parte dos pressupostos.
+
+- Em geral, em ciências humanas, a rotação mais adotada é a *promax*, mais flexível nos casos em que os fatores tem correlação.
+
+- Algumas rotações possíveis amplamente implementadas nos pacotes de AF são *varimax, quartimax, oblimin* e *varimax*.
+
+- Notem que em geral existem duas implementações no R para a *promax*, em geral sob os *alias promax* e *Promax*. A diferença entre elas é que a *promax* (minúsculo) realiza uma normalização específica (Kaiser) antes de aplicar a rotação, que é o procedimento aparentemente adotado pelo `SPSS`, por vezes mais utilizado que o `R` no contexto de ciências humanas. É pertinente adotar este procedimento em alguns casos, para garantir que os resultados sejam comparáveis com os eventualmente adotados pelo pesquisador. Consulte a documentação dos pacotes nestes casos para ter certeza.
+
+:::
+
+:::
+
+## Por fim...
+
+::: incremental
+
+- Portanto, análise fatorial exploratória é um modelo genuinamente **estatístico**; e não apenas uma transformação.
+
+- Em AFE, o modelo é **descoberto**. Em AFC, o modelo é **testado**.
+
+- Na próxima aula, trataremos de AFC, onde iremos **impor** uma estrutura em $\Phi$.
+
+- Desta forma, poderemos dizer que AFC é uma AFE **restrita**
+
+:::
+
+## Por hoje é só!
+
+Dúvidas?
+
+Feedbacks?
+
+
+
+
+
+
+
+
+
+
+
