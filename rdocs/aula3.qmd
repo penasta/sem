@@ -1,0 +1,351 @@
+---
+title: "Modelos de equações estruturais"
+subtitle: "Aula 3 — Análise Fatorial Confirmatória"
+author:
+  - name: Bruno Gondim Toledo
+    affiliation: 
+      - name: Estatístico — CONRE 1ª Região Nº 11477
+    url: https://github.com/penasta
+format:
+  revealjs: 
+    width: 1600
+    height: 900
+    slide-number: true
+    chalkboard: 
+      buttons: true
+    preview-links: auto
+    scrollable: true
+    theme: serif
+    css: styles.css
+resources:
+  - demo.pdf
+editor_options: 
+  chunk_output_type: console
+knitr:
+  opts_chunk:
+    dev: png
+    dev.args:
+      bg: transparent
+---
+
+## O que é e o que não é AFC
+
+::: incremental
+
+- Em AFE, **descobrimos** a estrutura latente, empiricamente.
+
+- Em AFC, **testamos** a estrutura latente, definida a priori.
+
+:::
+
+::: fragment
+
+Note:
+
+"... é importante ressaltar que análises estatísticas corretas não têm a capacidade de corrigir erros teóricos ou conceituais, como, por exemplo, a omissão de variáveis centrais ou um conceito incorreto orientando a mensuração de construtos."
+
+::: {style="font-size: 50%;"}
+
+- Fonte: Alexandre, J. Neves, B. Modelo de equações estruturais: Uma introdução aplicada. ENAP, pág 17
+
+:::
+
+:::
+
+::: fragment
+
+No caso concreto, estamos em uma situação em que o cliente precisa da nossa teoria, e nós precisamos da teoria do cliente!
+
+:::
+
+::: fragment
+
+Iremos então testar se a estrutura teórica é compatível com as **covariâncias** observadas.
+
+:::
+
+## O modelo (1)
+
+Iremos retomar o modelo apresentado na última aula, porém sem centralizar os dados e expandindo os conceitos
+
+$$
+\boldsymbol{x = \Lambda_x \xi + \delta},
+$$
+onde:
+
+:::incremental
+
+- x: vetor de variáveis observadas;
+- $\xi$: vetor de fatores latentes;
+- $\Lambda_x$: matriz de cargas fatoriais;
+- $\epsilon$: vetor de erros específicos.
+
+:::
+
+## O modelo (2)
+
+Desta forma, teremos:
+
+$$
+\Sigma = \Lambda_x \Phi \Lambda_x^T + \Theta_\epsilon,
+$$
+onde:
+
+::: incremental
+
+- $\Sigma$: matriz de covariâncias **populacionais esperadas**;
+- $\Phi$: matriz de covariância entre os fatores latentes;
+- $\Theta_\epsilon$: matriz (diagonal) das variâncias dos erros.
+
+:::
+
+::: {style="font-size: 80%;"}
+
+::: fragment
+
+Esse modelo teórico gera uma matriz de covariâncias “esperadas” sob a hipótese de que o modelo é verdadeiro.
+
+:::
+
+::: fragment
+
+O papel da AFC é verificar se essa matriz é compatível com a covariância empírica dos dados.
+
+:::
+
+::: fragment
+
+Assim como na regressão ajustamos parâmetros para minimizar resíduos, na AFC ajustamos $\Lambda_x, \Phi \text{ e } \Theta_\epsilon$ para minimizar a discrepância entre $\Sigma$ (modelo) e $\boldsymbol{S}$ (amostra).
+
+:::
+
+:::
+
+## Ajuste do modelo
+
+Para estimar via máxima verossimilhança, devemos minimizar a **função de discrepância**, definida por:
+
+$$
+F_{ML} = log|\Sigma| + tr(S\Sigma^{-1}) - log|S| - p,
+$$
+
+onde:
+
+:::incremental
+
+- $|\Sigma|$ é o determinante da matriz $\Sigma$;
+
+- $tr(.)$ é a função traço (soma dos elementos da diagonal principal);
+
+- $|S|$ é o determinante da matriz $S$. 
+
+:::
+
+::: fragment
+
+Sob [condições de regularidade](https://arxiv.org/pdf/2308.13939), $F_{ML} \sim \chi^2$.
+
+:::
+
+::: fragment
+
+Note que, se $\boldsymbol{\Sigma = S}$, então $F_{ML} = 0$.
+
+:::
+
+## Índices de ajuste
+
+
+:::: {.panel-tabset}
+
+### $\chi^2$
+
+::: {style="font-size: 70%;"}
+
+Utilizaremos a estatística $\chi^2$ como teste de ajuste absoluto do modelo
+
+:::
+
+::: {style="font-size: 80%;"}
+
+Hipóteses:
+
+:::
+
+::: {style="font-size: 60%;"}
+
+- $H_0$: O modelo se ajusta perfeitamente ($\Sigma = S$);
+- $H_1$: há discrepância significativa
+
+:::
+
+::: {style="font-size: 80%;"}
+
+Estatística do teste:
+
+:::
+
+$$
+\chi^2 = (n-1)F_{ML}(\hat{\theta})
+$$
+
+::: {style="font-size: 60%;"}
+
+Com $p^*-q$ graus de liberdade, em que $p^* = p(p+1)/2$, e $q$ é a quantidade de parâmetros livres.
+
+Fixando $\alpha = 0,05;$
+
+p-valor > 0,05 indica plausibilidade do modelo;
+
+p-valor < 0,05 indica ajuste inadequado.
+
+:::
+
+::: {style="font-size: 50%;"}
+
+Note:
+
+Para $n \rightarrow \infty$, pequenas discrepâncias rejeitam o modelo.
+
+Este teste serve como referência teórica, mas não deve ser usado isoladamente.
+
+:::
+
+### CFI
+
+Comparative Fit Index (CFI) compara o modelo teórico com um modelo nulo (sem correlações entre variáveis)
+
+$$
+CFI = 1 - \frac{max(\chi^2_{modelo} - gl_{modelo}, 0)}{max(\chi^2_{nulo} - gl_{nulo}, 0)}
+$$
+
+Mede o quanto o modelo melhora o ajuste em relação a um modelo sem estrutura.
+
+Escala: 0 a 1
+
+Regra de bolso:
+
+CFI $\geq$ 0,9: ajuste aceitável
+
+CFI $\geq$ 0,95: ajuste muito bom
+
+### TFI
+
+Tucker-Lewis Index (também conhecido como Nonnormed Fit Index (NNFI))
+
+Parecido com o CFI, também compara o modelo teórico com um modelo nulo (sem correlações entre variáveis), mas penaliza modelos com muitos parâmetros (complexos).
+
+$$
+TFI = \frac{(\chi^2_{nulo}/gl_{nulo}) - (\chi^2_{modelo}/gl_{modelo})}{(\chi^2_{nulo}/gl_{nulo}) - 1}
+$$
+
+A interpretação do resultado é a mesma do CFI.
+
+### RMSEA
+
+::: {style="font-size: 80%;"}
+
+O Root Mean Square Error of Approximation mede, dado a imperfeição do modelo, a distância da realidade.
+
+:::
+
+$$
+RMSEA = \sqrt{\frac{max(\chi^2_{modelo} - gl_{modelo}, 0)}{gl_{modelo}(n-1)}}
+$$
+
+::: {style="font-size: 80%;"}
+
+Esta métrica busca avaliar a aceitabilidade do modelo para além da amostra, isto é, na população.
+
+:::
+
+Regras de bolso:
+
+- RMSEA $\leq$ 0,05: Ajuste excelente;
+
+- 0,05 $\leq$ RMSEA $\leq$ 0,08: Ajuste razoável;
+
+- RMSEA > 0,1: Ajuste ruim.
+
+### SRMR
+
+O Standardized Root Mean Square Residual (SRMR) irá metrificar o erro médio entre correlações observadas e preditas.
+
+$$
+SRMR = \sqrt{\frac{\sum_{i=1}^p \sum_{j=1}^p (\dot{\rho}_{ij} - \hat{\rho}_{ij})^2}{p(p-1)/2}}
+$$
+
+Regra de bolso:
+
+- SRMR < 0,08: Bom ajuste.
+
+::::
+
+## Na prática; visualmente!
+
+Vamos ao `R`!
+
+## Por fim...
+
+A AFC é o primeiro passo dentro da Modelagem de Equações Estruturais. Aqui ainda estamos lidando apenas com a relação entre variáveis observadas e fatores. Mas a lógica é a mesma que vamos levar adiante: criar modelos teóricos de covariâncias, e verificar se eles são sustentados pelos dados.
+
+Adicionando regressões entre variáveis observadas e/ou fatores para outras variáveis observadas e/ou fatores, estaremos então montando um **Modelo de Equações Estruturais** (MEE, ou SEM, do inglês *Structural Equations Model*)
+
+```{mermaid}
+%%| fig-align: center
+
+graph TB
+    MOT[Motivação]
+    APO[Apoio Social]
+    DES[Desempenho]
+    SAT[Satisfação]
+    
+    PERS[Persistência]
+    INIT[Iniciativa]
+    FAM[Apoio Familiar]
+    AMIG[Apoio Amigos]
+    NOT[Notas]
+    PROD[Produtividade]
+    SATV[Satisfação Vida]
+    SATT[Satisfação Trabalho]
+    
+    MOT --> PERS
+    MOT --> INIT
+    APO --> FAM
+    APO --> AMIG
+    DES --> NOT
+    DES --> PROD
+    SAT --> SATV
+    SAT --> SATT
+    
+    MOT --> DES
+    MOT --> SAT
+    APO --> DES
+    APO --> SAT
+    DES --> SAT
+    
+    classDef latent fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef observed fill:#f3e5f5,stroke:#4a148c,stroke-width:1px
+    
+    class MOT,APO,DES,SAT latent
+    class PERS,INIT,FAM,AMIG,NOT,PROD,SATV,SATT observed
+
+```
+
+
+## Por hoje é só!
+
+Dúvidas?
+
+Feedbacks?
+
+
+
+
+
+
+
+
+
+
+
