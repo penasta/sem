@@ -1,0 +1,318 @@
+---
+title: "Modelos de equações estruturais"
+subtitle: "Aula 4 — Modelagem de equações estruturais"
+author:
+  - name: Bruno Gondim Toledo
+    affiliation: 
+      - name: Estatístico — CONRE 1ª Região Nº 11477
+    url: https://github.com/penasta
+format:
+  revealjs: 
+    width: 1600
+    height: 900
+    slide-number: true
+    chalkboard: 
+      buttons: true
+    preview-links: auto
+    scrollable: true
+    theme: serif
+    css: styles.css
+resources:
+  - demo.pdf
+editor_options: 
+  chunk_output_type: console
+knitr:
+  opts_chunk:
+    dev: png
+    dev.args:
+      bg: transparent
+---
+
+## O que é um SEM?
+
+::: fragment
+
+Resumidamente, um SEM pode ser definido como a combinação de análise fatorial confirmatória (AFC), com regressões **estruturais** entre os fatores e/ou variáveis observadas.
+
+Em outras palavras, trata-se de um *framework*, onde poderemos modelar relações entre construtos latentes e variáveis observadas.
+
+Até agora, tratamos de modelos de **mensuração**. Agora, estamos preocupados também com a **estrutura**.
+
+:::
+
+## Estrutura de um SEM
+
+Modelos de equações estruturais dividem-se em duas partes, sendo elas o modelo de mensuração e o modelo estrutural.
+
+:::: columns
+
+::: {.column width="50%"}
+
+### Modelo de **mensuração**
+
+- Buscaremos modelar as relações entre variáveis observadas e latentes;
+
+- A operacionalização disso dar-se-á via **AFC**.
+
+:::
+
+::: {.column width="50%"}
+
+### Modelo **estrutural**
+
+- Buscaremos modelar as relações entre as **latentes** (mas não só);
+
+- A operacionalização disso dar-se-á via **Regressão**.
+
+:::
+
+::::
+
+Faremos todo este procedimento de uma só vez, resultando em uma estrutura conveniente para a análise em questão.
+
+## Endógeno vs Exógeno
+
+Precisamos definir um conceito importante em SEM. Como estamos montando um sistema, é importante definir quem explica quem.
+
+:::: columns
+
+::: {.column width="50%"}
+
+### Variáveis exógenas
+
+- São variáveis "de fora" do modelo, não sendo explicadas por nenhuma outra variável.
+
+- No grafo, setas saem dela, mas nenhuma entra.
+
+- Pode ser vista como um preditor puro
+
+:::
+
+::: {.column width="50%"}
+
+### Variáveis endógenas
+
+- São as variáveis "de dentro", explicada por outras variáveis.
+
+- No grafo, setas entram nela (e podem sair também, se tornando relativamente exógena).
+
+- Pode ser vista como uma resposta do sistema
+
+:::
+
+::::
+
+::: fragment
+
+Lembram que em AFC, os fatores latentes que apontavam para as variáveis observadas?
+
+:::
+
+::: fragment
+
+Isto se dá pela sua natureza **reflexiva!**
+
+:::
+
+## Reflexivo vs formativo
+
+::: {style="font-size: 80%;"}
+
+Esta será a distinção do tipo de relação entre **variáveis latentes** e **indicadores**
+
+:::
+
+:::: columns
+
+::: {style="font-size: 70%;"}
+
+::: {.column width="49%"}
+
+### Modelo **reflexivo**
+
+- Nele, **a variável latente causa as respostas nos itens**.
+
+- Por conta disso, representamos no grafo as setas partindo das va. latentes para as covariáveis.
+
+- Exemplo: depressão (va latente) -> tristeza, insônia, fadiga (observadas).
+
+- Supõe-se que os indicadores sejam correlacionados e intercambiáveis (medem o mesmo construto).
+
+Em suma, aproveitando o exemplo, pode-se dizer que depressão existe, e causa os fatores que podem ser diretamente mensurados, permitindo assim sua metrificação "indireta".
+
+:::
+
+::: {.column width="2%"}
+
+:::
+
+::: {.column width="49%"}
+
+### Modelo **formativo**
+
+- Nele, **as covariáveis formam (ou causam) a variável latente** 
+
+- Por conta disso, representamos no grafo as setas partindo das covariáveis para as va. latentes.
+
+- Exemplo: renda, educação, ocupação (metrificadas) -> status socioeconômico (va latente).
+
+- Aqui, os indicadores não precisam ser correlacionados.
+
+Em suma, aproveitando o exemplo, pode-se dizer que "status socioeconômico" não existe, mas nós iremos formá-lo como sendo causado por variáveis metrificadas.
+
+:::
+
+:::
+
+::::
+
+:::: fragment
+
+::: {style="font-size: 70%;"}
+
+Observações:
+
+- Todas as AFE/AFC clássicas são reflexivas
+
+- Modelos formativos são mais raros, mas existem. Além disso, são mais difíceis de identificar, e operacionalmente costumam causar problemas. Em geral, é necessário especificar uma ou mais variáveis sendo causadas pelo construto formativo latente, ou impor uma restrição sobre a variância dos erros.
+
+:::
+
+::::
+
+## Definição do modelo e [Notação](https://files.core.ac.uk/download/pdf/230456045.pdf)
+
+$$
+\left\{
+  \begin{aligned}
+    x &= \Lambda_x\xi + \delta \\
+    y &= \Lambda_x\eta + \epsilon \\
+    \eta &= B\eta + \Gamma\xi + \zeta
+  \end{aligned}
+\right.
+$$
+
+Onde:
+
+::: incremental
+
+- $x$ são as variáveis observadas exógenas;
+
+- $\xi$ são os fatores latentes exógenos;
+
+- $y$ são as variáveis endógenas;
+
+- $\eta$ são os fatores latentes endógenos;
+
+- $\Lambda_x, B, \Gamma$ são matrizes de **pesos** (cargas e regressões);
+
+- $\delta, \epsilon, \zeta$ são termos de erros.
+
+:::
+
+## "Intuição"
+
+::: {style="font-size: 70%;"}
+
+Em regressão, temos:
+
+$$
+\boldsymbol{Y = X\beta + \epsilon}
+$$
+
+Em AFC, temos:
+
+$$
+\boldsymbol{x = \Lambda_x\xi + \delta}
+$$
+
+Agora, trabalhamos com ambos simultaneamente, onde:
+
+- Variáveis latentes ($\xi$) podem prever umas às outras;
+
+- Variáveis observadas dependem destas variáveis latentes.
+
+Desta forma, temos:
+
+$$
+\left\{
+  \begin{aligned}
+    x &= \Lambda_x\xi + \delta \text{ (AFC)}\\
+    \eta &= B\eta + \Gamma\xi + \zeta \text{ (Regressão)}
+  \end{aligned}
+\right.
+$$
+
+Isto é, teremos duas camadas de modelagem:
+
+- Relações **entre** variáveis observadas -> latentes (AFC);
+
+- Relações **dentre** variáveis latentes; ou entre latentes -> observadas (regressão).
+
+:::
+
+## Diagnóstico do modelo
+
+::: fragment
+
+::: {style="font-size: 90%;"}
+
+Antes de pensar em diagnóstico, é interessante verificar algumas regras heurísticas pré ajuste:
+
+:::
+
+::: incremental
+
+::: {style="font-size: 70%;"}
+
+- Modelo precisa de informação suficiente para estimar parâmetros (dados, covariâncias);
+
+- Uma das cargas fatoriais de cada latente será fixada em 1 por *default* pelo `lavaan`, a menos que fixe a variância da latente em 1;
+
+- Como regra geral, cada fator deve ter ao menos 3 variáveis observadas;
+
+- O modelo deve ser **sobre-identificado** (mais equações que parâmetros à estimar).
+
+:::
+
+:::
+
+:::
+
+::: fragment
+
+::: {style="font-size: 90%;"}
+
+O diagnóstico do modelo será feito tanto globalmente quanto localmente
+
+:::
+
+:::
+
+::: fragment
+
+::: {style="font-size: 80%;"}
+
+Para isto, iremos utilizar as métricas aprendidas na última aula ($\chi^2$, CFI, TFI, RMSEA, SRMR) para avaliar o ajuste global do modelo. 
+
+Caso exista mais de um modelo proposto, podemos também utilizar métricas como AIC e BIC
+
+:::
+
+:::
+
+::: fragment
+
+::: {style="font-size: 80%;"}
+
+Para ajuste local, avaliaremos, nas saídas do modelo, as cargas fatoriais, regressões, variâncias explicadas, resíduos, índices de modificação, etc.
+
+:::
+
+:::
+
+## Por hoje é só!
+
+Dúvidas?
+
+Feedbacks?
