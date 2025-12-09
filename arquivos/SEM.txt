@@ -1,0 +1,10 @@
+Palavras-chave:
+Análise fatorial (construtos latentes)
+regressão [- Análise de trajetórias; Análise de caminhos |> Decomposição da regressão linear m efeito direto e efeito indireto]
+
+ESTIMAÇÃO E MENSURAÇÃO
+
+y = XB + e_i <| Trabalhar a ideia de isolar componentes determinísticos de " aleatórios.
+
+
+"A modelagem de equações estruturais não é apenas mais uma técnica estatística multivariada: é uma maneira de testar teorias. Modelagens estatísticas muito mais fáceis estão disponíveis para a exploração de relações. Mas quando um pesquisador ou analista conhece suficientemente bem a questão que está analisando e que requer a observação de um conjunto de relações entre variáveis observadas e construtos latentes, além da maneira como tais construtos são medidos, o MEE passa a ser a melhor opção." (fonte enap p 79)
