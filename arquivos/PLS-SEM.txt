@@ -1,0 +1,258 @@
+Partial Least Squadres - Structural Equation Modeling
+PLS-SEM
+
+Fonte consulada:
+Canal Youtube - Prof. Adonai Lacruz. Série "PLS-PM no R. (Vídeos 1 a 5).
+
+====================================
+
+Princípios estruturais: 
+TEORIA QUALITATIVA.
+
+O que a teoria indica que forma gestão de documentos?
+O que a teoria indica que forma gestão de conhecimento?
+
+Ex: Se o estudo fosse sobre "Governança", a teoria indica que este é um construto complexo, em que a literatura indica como a governança sendo formada por "Disclousure", "Compliance", "Fairnss" e "Accountability".
+
+====================================
+
+
+FONTE: "PLS-SEM or CB-SEM: update guidelines on which method to use". Hair Jr, Matthews, Matthews, & Sarstedt, M. (2017) -> p.118: CB X PLS
+
+
+CB: Confirmatória
+PLS: Exploratória
+
+
+PLS: Abordagem de variável composta:
+Identificar variável latente, análise de componentes principais, análise de variância comum, " " " específica, " " " de erro
+
+
+CB: NÃO usa componentes principais: Fatores comuns. (Var. comum entre manifestas e latentes).
+
+
+PLS: Lida melhor com construtos formativos.
+
+
+
+(
+OBSERVAÇÕES: Sobre o projeto específico: Se o cliente tivesse boa certeza da teoria qualitativa, o CB-SEM seria a melhor alternativa, como estávamos fazendo.
+
+PLS-SEM é especialmente útil quando não temos uma teoria qualitativa robusta, mas temos DADOS (poucos, pode ser), e queremos testar algumas hipóteses simples.
+
+Neste sentido, o cliente está explorando o PIOR dos dois mundos: CB confirmaria a teoria com dados sintéticos. PLS criaria alguma teoria com poucos dados.
+
+PLS com dados sintéticos irá explorar caminhos não confirmatórios sobre dados que não existem.
+)
+
+
+
+PLS: Pressupostos:
+- Variável composta  != traço latente.
+
+- Tamanho amostral: "pequeno", em geral.
+
+- Não precisa ser normal. Porém, utilizaremos bootstrap para validação e IC dos parâmetros. Distribuições com divergências graves de assimetria e curtose em relação à Normal, podem influenciar negativamente o procedimento.
+
+- Dados pelo menos ordinais.
+(Nominal < Ordinal < Discreta < Contínua)
+
+- Linearidade.
+
+- Relações unidirecionais e recursividade:
+.OU A impacta B, OU B impacta A;
+.TODAS variáveis devem impactar outra.
+
+
+
+PLS: Cuidados:
+
+- Valores influentes (Não será um problema para nós);
+
+- Endogeneidade: Correlação entre variáveis exógenas com termo de erro: Se as variáveis exógenas estão associadas à termo de erro, indica omissão de variável, que não está no modelo.
+
+- Heterogeneidade: Pressupõe grupos HOMOGÊNEOS. Caso existam clusters (características sociodemográficas), devem ser indicados.
+
+- Efeitos não lineares.
+
+Fonte: "Structoral model robustness checks in PLS-SEM". Sarstedt, M. Ringle, C. M., Chea, J., Ting, H. Moisescu, O., & Radomir, L. (2019). Tourism Economics, 26(4), 531-554.
+
+
+
+
+Modelo estrutural:
+- Variáveis endógenas: "Recebem setas" de outras latentes/compostas;
+
+- Variáveis exógenas: NÃO "recebem setas" de outras latentes/compostas;
+
+
+
+
+Formativo X Reflexivo:
+
+- Formativo NÃO aceita bem correlações fortes entre as manifestas que formam o construto -> Regressão MULTIPLA.
+- Reflexivo: EXIGE alta correlação para as manifestas -> Regressão MULTIVARIADA.
+
+Identificar causalidade: Quem causa quem?
+Como identificar: Teoria Qualitativa: A análise quantitativa NÃO é capaz de identificar.
+Regra de bolso: Se as manifestas VÃO ser feitas ainda, é REFLEXIVO. Se as manifestas JÁ ocorreram (passado), é FORMATIVO.
+Ex:
+Satisfação:
+Reflexivo:
+- Esta empresa parece boa
+- Eu recomendaria esta empresa
+- Irei investir nesta empresa
+- Qual a chance da empresa ser X nos próximos 3 meses?
+. Note: Estas manifestas REFLETEM a satisfação. Coisas que VÃO ser feitas ainda.
+
+Formativo:
+- Fui bem atendido
+- Os funcionários são bons
+- A loja estava limpa
+- Com qual frequência a empresa apresentou comportamento X nos últimos 3 meses?
+
+. Note: Estas manifestas FORMARAM a satisfação. Estas coisas ACONTECERAM.
+
+FONTE: Wilcox, J. B., Howell, R. D., & Breivik, E. (2008). "Questions about formative measurement". Journal of Business Research, 61(12), 1219–1228. https://doi.org/10.1016/j.jbusres.2008.01.010
+
+
+
+Algoritmo PLS:
+- Modelo de centroide, modelo fatorial, modelo de caminho
+A literatura mostra que o modelo de caminho é o mais adequado.
+
+
+Entrada no algoritmo:
+Dados;
+Diagrama de caminho: Matriz booleana triangular inferior;
+Blocos: Relação de variáveis manifestas por variável latente;
+Indicar se a relação é reflexiva ou formativa;
+Esquema de ponderação (centroide, fatorial, caminho);
+Padronização de variáveis MANIFESTAS;
+Tolerância para convergênia;
+Máximo de iterações;
+Bootstrap.
+
+Interpretações do modelo
+
+Fontes:
+
+- "A primer on Partial Least Squares Structural Equation Modeling (PLS-SEM)". Hair et al.
+
+- "PLS Path Modeling with R". Gaston Sanchez.
+
+
+
+Avaliação dos modelos de mensuração REFLEXIVOS:
+. Confiabilidade INTERNA (unidimensionalidade):
+- Alfa de Cronbach (C.alpha) -> 0.5~0.6~0.7 < alfa < 0.9;
+- Medida de confiabilidade composta [MCC] (DG.rho) -> 0.7 < alfa < 0.9;
+- Autovalor (eig.1st,eig.2nd)
+
+OBS: Medem precisão, mas não medem acurácia.
+
+Regras de bolso:
+- Alfa de Cronbach como limite inferior, MCC como limite superior.
+- Para as duas primeiras, especialmente alfa: Indica REDUNDÂNCIA SEMÂNTICA.
+- 1º Autovalor >1 E "significativamente superior" ao 2º autovalor.
+
+
+
+Validade CONVERGENTE:
+- Cargas (loadings); -> Correlação entre a variável manifesta e a variável latent.
+> 0,708 -> quadrado > 0,5
+-> Indicador associado ao ITEM
+
+- Comunalidade (do item); -> Quanto da variação do item é explicada pelo construto.
+> 0,5 (afinal, é o quadrado do loading).
+-> Indicador associado ao ITEM
+
+- Média da variância extraída (AVE) -> Soma dos quadrados das cargas / n
+>= 0.5 -> Média da comunalidade do item.
+-> Indicador associado ao CONSTRUTO
+
+
+Validade DISCRIMINANTE:
+Verifica se os itens estão apontando para as latentes corretas.
+
+- Cargas cruzadas (cross-loading);
+Critério: Carga entre va manifesta e va latente a qual pertence seja superior do que em outras va latentes -> medidas discriminantes
+
+- Critério de Fornell-Larcker;
+Critério: Faz a raiz quadrada da AVE, e comparar com a correlação do construto em relação aos outros -> rq AVE > corr
+
+- Heterotrait-Monotrait Ratio (HTMT).
+Critério: Ponto de corte: Observar IC, se não passar pelo 1 -> Validade discriminante
+
+
+
+
+
+Avaliação de modelos de mensuração FORMATIVOS
+3 critérios:
+
+- Validade convergente
+. Análise de redundância;
+critério: reflexivo > .7, então deve servir para formativo
+(um pouco duvidoso este critério)
+
+- Colinearidade
+. Fator de inflação de variância (VIF);
+critério: < 5
+
+- Significância e relevância dos indicadores
+. Pesos (weights) -> significância e relevância.
+
+
+
+Avaliação do modelo Estrutural
+- Colinearidade (VIF);
+. < 5 -> Sem problemas de colinearidade.
+-> Verificar se há colinearidade dos construtos EXÓGENOS em relação aos ENDÓGENOS.
+. OBS: Aparentemente, NÃO será uma questão neste projeto, visto que não existem múltiplas exógenas apontando para endógena(s): há apenas 1 endógena e 1 exógena!
+
+- Significância e relevância dos coeficientes de caminho;
+. setas entre os modelos estruturais
+Caso concreto: GD -> GC, apenas.
+Verificar significância estatística E relevância (tamanho do peso)
+
+- Efeitos diretos e indiretos;
+OBS: Não teremos, aparentemente, avaliação de efeitos indiretos neste projeto, visto que não há latentes compostas (latente1 -> latente2 -> latente3 => avaliar efeito de l1 em l3).
+Efeito total: Efeito direto + efeito indireto.
+
+
+- Coeficiente de determinação (R²), Tamanho do efeito (f²) e Coeficiente de determinação ajustado (adj. R²);
+. R²: Interpretação análoga à regressão múltipla;
+Quanto da variação da variável latente exógena explica a variação da variável latente endógena.
+Regra de bolso (relativa): <.15: Baixo; .15 < R² < .6: Médio. >.6: Alto.
+
+. adj. R²: Interpretação análoga à regressão múltipla;
+Idem ao anterior, mas mais robusto para comparação de modelos.
+
+. f²: Contribuição do construto exógeno para um construto endógeno.
+contribuição de variável dependente em contexto de regressão.
+(não vai fazer muito sentido neste projeto, pela mesma questão do efeito indireto).
+
+
+- Relevância preditiva (Q²) e tamanho do efeito (q²);
+. Q²: Se > 0, indica que o construto exógeno têm relevância preditiva para construto endógeno. Apenas faz sentido para REFLEXIVAS.
+. q²: Se existe relevância preditiva, então o quanto uma variável contribuiu para a outra.
+
+
+- Média da redundância;
+O quanto que a variação das variáveis manifestas da variável exógena explica a variação das variáveis manifestas da variável endógena.
+
+
+- Pseudo GoF.
+Problemático quando existem construtos formativos. Se existem apenas construtos reflexivos, não existem tantos problemas.
+0 a 1 -> Explicação da qualidade do modelo de mensuração e estrutural, conjuntamente. Medida geral.
+
+Tenenhaus et al. (2005): 
+Baixo: GoF <= 0.1
+Médio: GoF =~ 0.25
+Bom: GoF => 0.36
+
+Validação:
+- Bootstrapping;
+
+- Convergência.

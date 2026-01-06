@@ -1,0 +1,660 @@
+---
+title: "Modelos de equações estruturais"
+subtitle: "Aula 6 — Partial Least Squares SEM (PLS-SEM)"
+author:
+  - name: Bruno Gondim Toledo
+    affiliation: 
+      - name: Estatístico — CONRE 1ª Região Nº 11477
+    url: https://github.com/penasta
+format:
+  revealjs: 
+    width: 1600
+    height: 900
+    slide-number: true
+    chalkboard: 
+      buttons: true
+    preview-links: auto
+    scrollable: true
+    theme: serif
+    css: styles.css
+resources:
+  - demo.pdf
+editor_options: 
+  chunk_output_type: console
+knitr:
+  opts_chunk:
+    dev: png
+    dev.args:
+      bg: transparent
+---
+
+## Princípios estruturais
+
+::: fragment
+
+TEORIA QUALITATIVA!
+
+:::
+
+::: fragment
+
+O que a teoria indica que forma gestão de documentos?
+O que a teoria indica que forma gestão de conhecimento?
+
+:::
+
+::: fragment
+
+Ex: Se o estudo fosse sobre "Governança", a teoria indica que este é um construto complexo, em que a literatura indica como a governança sendo formada por "Disclousure", "Compliance", "Fairness" e "Accountability".
+
+:::
+
+::: fragment
+
+::: {style="font-size: 80%;"}
+
+OBSERVAÇÕES: Sobre o projeto específico: Se o cliente tivesse boa certeza da teoria qualitativa, o CB-SEM seria a melhor alternativa, como estávamos fazendo.
+
+PLS-SEM é especialmente útil quando não temos uma teoria qualitativa robusta, mas temos DADOS (poucos, pode ser), e queremos testar algumas hipóteses simples.
+
+Neste sentido, o cliente está explorando o PIOR dos dois mundos: CB confirmaria a teoria com dados sintéticos. PLS criaria alguma teoria com poucos dados.
+
+PLS com dados sintéticos irá explorar caminhos não confirmatórios sobre dados que não existem.
+
+:::
+
+:::
+
+## CB-SEM vs PLS-SEM
+
+:::: columns
+
+::: {.column width="48%"}
+
+### CB-SEM
+
+::: fragment
+
+- "Confirmatória"
+
+- Orientado à reprodução da matriz de covariâncias
+
+- NÃO usa componentes principais: Fatores comuns. (Variância comum entre manifestas e latentes).
+
+:::
+
+:::
+
+::: {.column width="4%"}
+
+:::
+
+::: {.column width="48%"}
+
+::: fragment
+
+### PLS-SEM
+
+- "Exploratória"
+
+- Orientado à maximização da variância explicada (R²)
+
+- Abordagem de variável composta:
+
+Combinações lineares iterativas dos indicadores para maximizar a variância explicada (não é ACP, mas compartilha a lógica de variáveis compostas).
+
+- Lida melhor com construtos formativos.
+
+:::
+
+:::
+
+::::
+
+## Pressupostos
+
+::: {style="font-size: 80%;"}
+
+::: incremental
+
+- Variável composta $\neq$ traço latente.
+
+- Tamanho amostral: "pequeno", em geral.
+
+- Distribuição dos dados não precisa ser normal. Porém, utilizaremos bootstrap para validação e IC dos parâmetros. Distribuições com divergências graves de assimetria e curtose em relação à Normal, podem influenciar negativamente o procedimento.
+
+- Linearidade.
+
+:::
+
+::: fragment
+
+- Dados pelo menos ordinais (Policóricos não são obrigatórios em PLS, diferente de CB)
+
+(Nominal < Ordinal < Discreta < Contínua)
+
+:::
+
+::: fragment
+
+- Relações unidirecionais e recursividade:
+
+OU A impacta B, OU B impacta A.
+
+:::
+
+::: fragment
+
+OBS: Todo construto deve ter papel teórico no modelo.
+
+(Variáveis exógenas puras não recebem setas, mas podem existir construtos apenas explicativos)
+
+:::
+
+:::
+
+## Cuidados
+
+::: incremental
+
+- Valores influentes (OBS:Não será um problema para nós);
+
+- Endogeneidade: Correlação entre variáveis exógenas com termo de erro: Se as variáveis exógenas estão associadas à termo de erro, indica omissão de variável, que não está no modelo.
+
+- Heterogeneidade: Pressupõe grupos HOMOGÊNEOS. Caso existam clusters (características sociodemográficas), devem ser indicados.
+
+- Efeitos não lineares.
+
+:::
+
+::: fragment
+
+::: {style="font-size: 50%;"}
+
+Fonte: "Structoral model robustness checks in PLS-SEM". Sarstedt, M. Ringle, C. M., Chea, J., Ting, H. Moisescu, O., & Radomir, L. (2019). Tourism Economics, 26(4), 531-554.
+
+:::
+
+:::
+
+## O modelo estrutural
+
+::: incremental
+
+- Variáveis endógenas: "Recebem setas" de outras latentes/compostas;
+
+- Variáveis exógenas: NÃO "recebem setas" de outras latentes/compostas;
+
+:::
+
+## Formativo vs Reflexivo
+
+::: fragment
+
+- Construtos formativos NÃO aceitam bem correlações fortes entre as manifestas que formam o construto -> Regressão **MULTIPLA**.
+
+- Reflexivo: EXIGE alta correlação para as manifestas -> Regressão **MULTIVARIADA**.
+
+:::
+
+::: fragment
+
+Identificar causalidade: Quem causa quem?
+
+Como identificar: Teoria Qualitativa: A análise quantitativa NÃO é capaz de identificar.
+
+:::
+
+::: fragment
+
+Regra de bolso: Se as manifestas VÃO ser feitas ainda, é REFLEXIVO. Se as manifestas JÁ ocorreram (passado), é FORMATIVO.
+
+:::
+
+## Exemplo Formativo vs Reflexivo — Satisfação
+
+:::: columns
+
+::: {.column width="48%"}
+
+### Reflexivo
+
+::: fragment
+
+- Esta empresa parece boa
+- Eu recomendaria esta empresa
+- Irei investir nesta empresa
+- Qual a chance da empresa ser X nos próximos 3 meses?
+
+:::
+
+::: fragment
+
+Note: Estas manifestas REFLETEM a satisfação. Coisas que VÃO ser feitas ainda.
+
+:::
+
+:::
+
+::: {.column width="4%"}
+
+:::
+
+::: {.column width="48%"}
+
+### Formativo
+
+::: fragment
+
+- Fui bem atendido
+- Os funcionários são bons
+- A loja estava limpa
+- Com qual frequência a empresa apresentou comportamento X nos últimos 3 meses?
+
+:::
+
+::: fragment
+
+Note: Estas manifestas FORMARAM a satisfação. Estas coisas ACONTECERAM.
+
+:::
+
+:::
+
+::::
+
+::: fragment
+
+::: {style="font-size: 50%;"}
+
+FONTE: Wilcox, J. B., Howell, R. D., & Breivik, E. (2008). "Questions about formative measurement". Journal of Business Research, 61(12), 1219–1228. https://doi.org/10.1016/j.jbusres.2008.01.010
+
+:::
+
+:::
+
+## Algoritmo PLS
+
+Existem três implementações principais dos esquemas de ponderação:
+
+- Modelo de centroide
+
+- Modelo fatorial
+
+- Modelo de caminho
+
+A literatura frequentemente recomenda o modelo de caminho quando não existem construtos formativos. Quando existem estes, o modelo fatorial é frequentemente recomendado.
+
+## Utilizar o algoritmo no `plspm` no R
+
+A função principal do pacote é a `plspm()`, que funcionará de maneira análoga à um `lm()` para ajuste, com os seguintes argumentos principais:
+
+- Dados;
+
+- Diagrama de caminho: Matriz booleana triangular inferior;
+
+- Blocos: Relação de variáveis manifestas por variável latente;
+
+- Indicar se a relação é reflexiva ou formativa;
+
+- Esquema de ponderação (centroide, fatorial, caminho);
+
+- Padronização de variáveis MANIFESTAS;
+
+- Tolerância para convergência;
+
+- Máximo de iterações;
+
+- Bootstrap.
+
+## Avaliação do modelo — Confiabilidade de construtos reflexivos
+
+::: {style="font-size: 60%;"}
+
+OBS: APENAS para REFLEXIVOS.
+
+:::
+
+Confiabilidade INTERNA (unidimensionalidade):
+
+::: fragment
+
+::: {style="font-size: 80%;"}
+
+- Alfa de Cronbach (C.alpha) -> 0.5/0.6/0.7 < alfa < 0.9/0.95;
+
+- Medida de confiabilidade composta [MCC] (DG.rho) -> 0.7 < alfa < 0.9;
+
+- Autovalor (eig.1st,eig.2nd)
+
+:::
+
+:::
+
+::: fragment
+
+::: {style="font-size: 60%;"}
+
+OBS: Medem precisão, mas não medem acurácia.
+
+:::
+
+:::
+
+::: fragment
+
+::: {style="font-size: 80%;"}
+
+Regras de bolso:
+
+- Alfa de Cronbach como limite inferior, MCC como limite superior.
+
+- Para as duas primeiras, especialmente alfa: Valores > 0.95 indica redundância semântica.
+
+- 1º Autovalor >1 E "significativamente superior" ao 2º autovalor.
+
+:::
+
+:::
+
+::: fragment
+
+::: {style="font-size: 50%;"}
+
+Fontes:
+
+- "A primer on Partial Least Squares Structural Equation Modeling (PLS-SEM)". Hair et al.
+
+- "PLS Path Modeling with R". Gaston Sanchez.
+
+:::
+
+:::
+
+## Avaliação do modelo — Validade convergente
+
+::: fragment
+
+- Cargas (loadings); -> Correlação entre a variável manifesta e a variável latente.
+
+- Indicador associado ao ITEM
+
+Regra de bolso: Carga > 0,708 (quadrado > 0,5) -> Carga em valores ideais.
+
+:::
+
+::: fragment
+
+- Comunalidade (do item); -> Quanto da variação do item é explicada pelo construto.
+
+- Indicador associado ao ITEM
+
+- Regra de bolso: Comunalidade > 0,5 (afinal, é o quadrado do loading).
+
+:::
+
+::: fragment
+
+- Média da variância extraída (AVE) -> Soma dos quadrados das cargas / n
+
+- Indicador associado ao CONSTRUTO
+
+- Regra de bolso: AVE >= 0.5 -> Média da comunalidade do item.
+
+:::
+
+## Avaliação do modelo — Validade discriminante
+
+Verifica se os itens estão apontando para as latentes corretas.
+
+::: fragment
+
+- Cargas cruzadas (cross-loading)
+
+Critério: Carga entre variável manifesta e variável latente a qual pertence seja superior do que em outras variáveis latentes (medida discriminante)
+
+:::
+
+::: fragment
+
+- Critério de Fornell-Larcker
+
+Critério: Calcula a raiz quadrada da AVE, e comparar com a correlação do construto em relação aos outros (Desejável: Raiz quadrada da AVE > correlação)
+
+:::
+
+::: fragment
+
+- Heterotrait-Monotrait Ratio (HTMT)
+
+Critério: Ponto de corte: Observar IC, se não passar pelo 1, indica Validade discriminante. Valores pontuais < 0.85 / 0.90 são frequentemente usados como referência.
+
+:::
+
+## Avaliação do modelo — Construtos formativos
+
+::: fragment
+
+- Validade convergente
+
+Análise de redundância. Critério: Reflexivo > .7, então "deve servir para formativo". (um pouco duvidoso este critério)
+
+:::
+
+::: fragment
+
+- Colinearidade
+
+Fator de inflação de variância (VIF). Critério: < 5
+
+:::
+
+::: fragment
+
+- Significância e relevância dos indicadores
+
+Pesos (weights) -> Avaliar **significância** e **relevância**.
+
+:::
+
+## Avaliação do modelo estrutural
+
+::: fragment
+
+- Colinearidade (VIF)
+
+::: {style="font-size: 80%;"}
+
+. < 5 -> Sem problemas de colinearidade.
+
+Verificar se há colinearidade dos construtos EXÓGENOS em relação aos ENDÓGENOS.
+
+:::
+
+::: {style="font-size: 60%;"}
+
+OBS: Aparentemente, NÃO será uma questão neste projeto, visto que não existem múltiplas exógenas apontando para endógena(s): há apenas 1 endógena e 1 exógena!
+
+:::
+
+:::
+
+::: fragment
+
+- Significância e relevância dos coeficientes de caminho
+
+::: {style="font-size: 80%;"}
+
+Setas entre os modelos estruturais
+
+Verificar significância estatística E relevância (tamanho do peso)
+
+:::
+
+::: {style="font-size: 60%;"}
+
+OBS: Caso concreto: GD -> GC, apenas.
+
+:::
+
+:::
+
+::: fragment
+
+- Efeitos diretos e indiretos
+
+::: {style="font-size: 80%;"}
+
+Efeito total: Efeito direto + efeito indireto.
+
+:::
+
+::: {style="font-size: 60%;"}
+
+OBS: Não teremos, aparentemente, avaliação de efeitos indiretos neste projeto, visto que não há latentes compostas (latente1 -> latente2 -> latente3 => avaliar efeito de l1 em l3).
+
+:::
+
+:::
+
+::: fragment
+
+- Coeficiente de determinação (R²) e Coeficiente de determinação ajustado (adj. R²)
+
+::: {style="font-size: 80%;"}
+
+R²: Interpretação análoga à regressão múltipla:
+
+Quanto da variação da variável latente exógena explica a variação da variável latente endógena.
+
+:::
+
+::: {style="font-size: 70%;"}
+
+Regra de bolso (relativa): <.15: Baixo; .15 < R² < .6: Médio. >.6: Alto.
+
+:::
+
+
+
+::: {style="font-size: 80%;"}
+
+adj. R²: Interpretação análoga à regressão múltipla
+
+Idem ao R², mas mais robusto para comparação de modelos.
+
+:::
+
+:::
+
+::: fragment
+
+- Tamanho do efeito (f²) 
+
+::: {style="font-size: 80%;"}
+
+Contribuição do construto exógeno para um construto endógeno.
+contribuição de variável dependente em contexto de regressão.
+(não vai fazer muito sentido neste projeto, pela mesma questão do efeito indireto).
+
+:::
+
+:::
+
+::: fragment
+
+- Relevância preditiva (Q²) e tamanho do efeito (q²)
+
+::: {style="font-size: 80%;"}
+
+Q²: Se > 0, indica que o construto exógeno têm relevância preditiva para construto endógeno. (Apenas faz sentido para REFLEXIVAS).
+
+q²: Se existe relevância preditiva, então o quanto uma variável contribuiu para a outra.
+
+:::
+
+:::
+
+::: fragment
+
+- Média da redundância
+
+::: {style="font-size: 80%;"}
+
+O quanto que a variação das variáveis manifestas da variável exógena explica a variação das variáveis manifestas da variável endógena.
+
+:::
+
+:::
+
+::: fragment
+
+- Pseudo GoF.
+
+::: {style="font-size: 80%;"}
+
+Problemático quando existem construtos formativos. Se existem apenas construtos reflexivos, não existem tantos problemas.
+0 a 1 -> Explicação da qualidade do modelo de mensuração e estrutural, conjuntamente. Medida geral.
+
+:::
+
+::: {style="font-size: 60%;"}
+
+Regra de bolso (Tenenhaus et al., 2005): 
+Baixo: GoF <= 0.1
+Médio: GoF =~ 0.25
+Bom: GoF => 0.36
+
+:::
+
+:::
+
+## Validação do modelo
+
+- Bootstrapping;
+
+- Convergência.
+
+## Antes de rodar o modelo
+
+- O modelo faz sentido teoricamente?
+
+- As direções das setas são justificáveis?
+
+- Os construtos são reflexivos ou formativos?
+
+- O objetivo é explicação ou predição?
+
+## Implementação
+
+Vamos ao R...
+
+## O que PLS-SEM NÃO faz
+
+- Não prova causalidade
+
+- Não substitui teoria
+
+- Não valida modelos mal especificados
+
+- Não corrige dados ruins
+
+## Referências
+
+- Canal Youtube - Prof. Adonai Lacruz. Série "PLS-PM no R". Videos 1 a 5.
+
+- PLS-SEM or CB-SEM: update guidelines on which method to use". Hair Jr, Matthews, Matthews, & Sarstedt, M. (2017)
+
+- "Structoral model robustness checks in PLS-SEM". Sarstedt, M. Ringle, C. M., Chea, J., Ting, H. Moisescu, O., & Radomir, L. (2019). Tourism Economics, 26(4), 531-554.
+
+- Wilcox, J. B., Howell, R. D., & Breivik, E. (2008). "Questions about formative measurement". Journal of Business Research, 61(12), 1219–1228. https://doi.org/10.1016/j.jbusres.2008.01.010
+
+- "A primer on Partial Least Squares Structural Equation Modeling (PLS-SEM)". Hair et al.
+
+- "PLS Path Modeling with R". Gaston Sanchez.
+
+## Por hoje é só!
+
+Dúvidas?
+
+Feedbacks?
