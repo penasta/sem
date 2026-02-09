@@ -4,7 +4,7 @@ p_load(plspm,readr,pwr,reshape,ggplot2,car,boot)
 # 0.1. Tamanho amostral ----
 
 ## 0.1.1. Via OLS ----
-n <- pwr.f2.test(u=17, # argmax #preditores(GD,GC)
+n <- pwr.f2.test(u = 17, # argmax #preditores(GD,GC)
             f2 = .15, # Tamanho de efeito. Médio = .15
             sig.level = .05, # Significância
             power = .8) # Poder
@@ -233,7 +233,7 @@ modelo$inner_summary
 
 modelo$inner_summary[,-5]
 # A variação de GD explica a variação em GC em 34,71%.
-# Variação das manifestas da variável exógena que explcam a variação das variáveis manifestas indicadoras da variável endógena.
+# Variação das manifestas da variável exógena que explicam a variação das variáveis manifestas indicadoras da variável endógena.
 
 # Q² ≤ 0	Sem relevância preditiva
 # 0 < Q² ≤ 0.02	Pequena
@@ -253,7 +253,7 @@ modelo$inner_summary
 # 0.15–0.35	Médio
 # ≥ 0.35	Grande
 
-## 4.5. GoF ----
+## 4.5. Pseudo GoF ----
 modelo$gof
 
 # 5. Validação ----

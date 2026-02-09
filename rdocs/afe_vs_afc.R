@@ -11,6 +11,8 @@ fit_efa <- sem(modelo_efa, data = df, estimator = "MLR", missing = "fiml")
 
 lavaanPlot(model = fit_efa, coefs = TRUE)
 
+summary(fit_efa)
+
 ?HolzingerSwineford1939
 
 modelo_afc <- '

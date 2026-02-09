@@ -24,3 +24,22 @@ fa_fit2 <- fa(dados, nfactors = 6, rotate = "promax", fm = "ml")
 fa_fit2
 
 fa.diagram(fa_fit2, simple = F)
+
+
+
+
+
+###############
+
+# Scores indivíduo-a-indivíduo
+
+cov_mat <- Harman74.cor$cov
+n <- Harman74.cor$n.obs
+
+set.seed(123)
+dados_sim <- MASS::mvrnorm(n = n, mu = rep(0, 24), Sigma = cov_mat)
+
+fa_fit <- fa(dados_sim, nfactors = 2, fm = "ml", rotate = "oblimin")
+
+print(fa_fit$loadings)
+
