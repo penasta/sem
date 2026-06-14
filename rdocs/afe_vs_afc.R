@@ -25,7 +25,7 @@ fit_afc <- cfa(modelo_afc, data = df, estimator = "MLR", missing = "fiml")
 
 lavaanPlot(model = fit_afc, coefs = TRUE)
 
-# summary(fit_afc, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE)
+summary(fit_afc, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE)
 
 fitMeasures(fit_afc, c("chisq","df","pvalue","cfi","tli","rmsea","rmsea.ci.lower","rmsea.ci.upper","srmr"))
 
